@@ -23,7 +23,7 @@ def load_config():
 
     pathlib.Path(__file__).parent.absolute()
     with open(os.path.join(pathlib.Path(__file__).parent.absolute(), 'config.yaml')) as f:
-        return yaml.load(f)
+        return yaml.load(f, Loader=yaml.SafeLoader)
 
 
 def broker_method():
@@ -50,7 +50,7 @@ logging.basicConfig(
 )
 
 
-client = mqtt.Client()
+client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
 client.on_connect = on_connect
 client.on_message = on_message
 client.username_pw_set(auth.get('username'), auth.get('password'))
