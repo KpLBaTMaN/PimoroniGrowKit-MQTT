@@ -55,7 +55,7 @@ This makes it possible to create graphs for your HA dashboard.
 6. Install the repository containing the MQTT messager
 
    ```bash
-   git clone https://github.com/jeroenboumans/PimoroniGrowKit-MQTT
+   git clone https://github.com/KpLBaTMaN/PimoroniGrowKit-MQTT
    cd PimoroniGrowKit-MQTT/
    ```
 
