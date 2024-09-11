@@ -5,6 +5,9 @@ import ltr559
 import sys, os, pathlib
 from grow.moisture import Moisture
 import paho.mqtt.client as mqtt
+import logging
+
+
 
 
 def on_connect(client, userdata, flags, rc):
@@ -30,10 +33,22 @@ def broker():
 def auth():
     return load_config().get('auth')
 
+def log():
+    return load_config.get('logging')
 
 config = load_config()
 broker = broker()
 auth = auth()
+log = log()
+
+
+logging.basicConfig(
+    filename=log.get('filepath'), 
+    level=logging.DEBUG,
+    format='%(asctime)s - %(message)s', 
+    datefmt='%d-%b-%y %H:%M:%S'
+)
+
 
 client = mqtt.Client()
 client.on_connect = on_connect
@@ -47,18 +62,19 @@ sensors = [Moisture(1), Moisture(2), Moisture(3)]
 light = ltr559.LTR559()
 
 while True:
+    try:
+        payload = {"light": light.get_lux()}
+        for i in range(len(sensors)):
+            payload["sensor_{}".format(i)] = {
+                "moisture": sensors[i].moisture,
+                "saturation": sensors[i].saturation
+            }
 
-    i = 0
-    payload = {"light": light.get_lux()}
-    for i in range(0, len(sensors)):
-        payload["sensor_{}".format(i)] = {
-            "moisture": sensors[i].moisture,
-            "saturation": sensors[i].saturation
-        }
+        client.publish(broker.get('topic'), json.dumps(payload))
+        print(json.dumps(payload))
 
-    client.publish(broker.get('topic'), json.dumps(payload))
-
-    print(json.dumps(payload))
+    except Exception as e:
+        logging.error(f"Error in sensor data collection or MQTT publishing: {e}", exc_info=True)
 
     time.sleep(30)
 
