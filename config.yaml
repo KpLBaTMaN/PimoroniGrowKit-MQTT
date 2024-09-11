@@ -7,6 +7,5 @@ auth:
     username: USERNAME    # MQTT username
     password: PASSWORD    # MQTT password
 
-
 logging:
     filepath: /home/botany/plant_watcher.log  # file path to log file

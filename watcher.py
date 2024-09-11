@@ -26,20 +26,20 @@ def load_config():
         return yaml.load(f)
 
 
-def broker():
+def broker_method():
     return load_config().get('broker')
 
 
-def auth():
+def auth_method():
     return load_config().get('auth')
 
-def log():
+def log_method():
     return load_config.get('logging')
 
 config = load_config()
-broker = broker()
-auth = auth()
-log = log()
+broker = broker_method()
+auth = auth_method()
+log = log_method()
 
 
 logging.basicConfig(
