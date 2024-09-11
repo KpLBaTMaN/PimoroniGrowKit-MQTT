@@ -34,16 +34,16 @@ def auth_method():
     return load_config().get('auth')
 
 def log_method():
-    return load_config.get('logging')
+    return load_config().get('logging')
 
 config = load_config()
 broker = broker_method()
 auth = auth_method()
-config_log = log_method()
+log = log_method()
 
 
 logging.basicConfig(
-    filename=config_log.get('filepath'), 
+    filename=log.get('filepath'), 
     level=logging.DEBUG,
     format='%(asctime)s - %(message)s', 
     datefmt='%d-%b-%y %H:%M:%S'
