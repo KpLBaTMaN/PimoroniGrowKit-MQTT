@@ -39,11 +39,11 @@ def log_method():
 config = load_config()
 broker = broker_method()
 auth = auth_method()
-log = log_method()
+config_log = log_method()
 
 
 logging.basicConfig(
-    filename=log.get('filepath'), 
+    filename=config_log.get('filepath'), 
     level=logging.DEBUG,
     format='%(asctime)s - %(message)s', 
     datefmt='%d-%b-%y %H:%M:%S'
